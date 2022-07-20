@@ -120,16 +120,13 @@ func TestDatabaseCreateFromShare(t *testing.T) {
 
 	in := map[string]interface{}{
 		"name": "good_name",
-		"from_share": map[string]interface{}{
-			"provider": "abc123",
-			"share":    "my_share",
-		},
+		"from_share": `"myorg"."abc123"."my_share"`
 	}
 	d := schema.TestResourceDataRaw(t, resources.Database().Schema, in)
 	r.NotNil(d)
 
 	WithMockDb(t, func(db *sql.DB, mock sqlmock.Sqlmock) {
-		mock.ExpectExec(`CREATE DATABASE "good_name" FROM SHARE "abc123"."my_share"`).WillReturnResult(sqlmock.NewResult(1, 1))
+		mock.ExpectExec(`CREATE DATABASE "good_name" FROM SHARE "myorg"."abc123"."my_share"`).WillReturnResult(sqlmock.NewResult(1, 1))
 		expectRead(mock)
 		err := resources.CreateDatabase(d, db)
 		r.NoError(err)

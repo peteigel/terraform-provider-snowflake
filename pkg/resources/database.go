@@ -30,7 +30,7 @@ var databaseSchema = map[string]*schema.Schema{
 		Computed: true,
 	},
 	"from_share": {
-		Type:          schema.TypeMap,
+		Type:          schema.TypeString,
 		Elem:          &schema.Schema{Type: schema.TypeString},
 		Description:   "Specify a provider and a share in this map to create a database from a share.",
 		Optional:      true,
